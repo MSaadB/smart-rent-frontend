@@ -1,6 +1,7 @@
 import React from "react";
 import "./Listings.css";
 import ListingList from "../components/ListingList";
+//import { useParams } from "react-router-dom";
 
 const DUMMY_LISTINGS = [
     {
@@ -27,6 +28,9 @@ const DUMMY_LISTINGS = [
 ];
 
 const Listings = () => {
+    /*const listingId = useParams().listingId;
+    const filteredListing = DUMMY_LISTINGS.filter((listing) => listing.id === listingId);*/
+    //put in filteredListing between items={}
     return <ListingList items={DUMMY_LISTINGS}/>;
 };
 

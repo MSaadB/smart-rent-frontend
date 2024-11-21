@@ -5,10 +5,12 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
+import MainPage from "./shared/pages/MainPage";
 import NewListing from "./listings/pages/NewListing";
 import Users from "./users/pages/Users";
 import Listings from "./listings/pages/Listings";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+
 
 const App = () => {
   return (
@@ -17,7 +19,7 @@ const App = () => {
       <main>
       <Switch>
         <Route path="/" exact>
-          <Listings />
+          <MainPage />
         </Route>
         <Route path="/listings/new" exact>
           <NewListing />
