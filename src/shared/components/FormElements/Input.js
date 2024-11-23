@@ -2,6 +2,7 @@ import React, { useReducer, useEffect } from "react";
 
 import { validate } from "../../util/validator";
 import "./Input.css";
+import Select from 'react-select';
 
 const inputReducer = (state, action) => {
   switch (action.type) {
@@ -20,6 +21,16 @@ const inputReducer = (state, action) => {
       return state;
   }
 };
+
+const options = [
+  { value: 'Room', label: 'Room' },
+  { value: 'Basement', label: 'Basement' },
+  { value: 'House', label: 'House' }
+]
+
+const MyComponent = () => (
+  <Select options={options} />
+)
 
 const Input = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
@@ -49,6 +60,10 @@ const Input = (props) => {
     });
   };
 
+  const isRequired = props.validators?.some(
+    (validator) => validator.type === "REQUIRE"
+  );
+
   const element =
     props.element === "input" ? (
       <input
@@ -59,7 +74,7 @@ const Input = (props) => {
         onBlur={touchHandler}
         value={inputState.value}
       />
-    ) : (
+    ) : props.element === "textarea" ? (
       <textarea
         id={props.id}
         rows={props.rows || 3}
@@ -67,7 +82,15 @@ const Input = (props) => {
         onBlur={touchHandler}
         value={inputState.value}
       />
-    );
+    ) : props.element === "select" ? (
+      <Select
+        id={props.id}
+        options={props.options}
+        onChange={changeHandler}
+        onBlur={touchHandler}
+        value={props.options.find(option => option.value === inputState.value)}
+      />
+    ) : null;
 
   return (
     <div
@@ -75,7 +98,9 @@ const Input = (props) => {
         !inputState.isValid && inputState.isTouched && "form-control--invalid"
       }`}
     >
-      <label htmlFor={props.id}>{props.label}</label>
+      <label htmlFor={props.id}>
+        {props.label} {isRequired && <span style={{ color: "red" }}>*</span>}
+      </label>
       {element}
       {!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}
     </div>

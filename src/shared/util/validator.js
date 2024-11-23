@@ -19,6 +19,12 @@ export const VALIDATOR_MAXLENGTH = (val) => ({
 export const VALIDATOR_MIN = (val) => ({ type: VALIDATOR_TYPE_MIN, val: val });
 export const VALIDATOR_MAX = (val) => ({ type: VALIDATOR_TYPE_MAX, val: val });
 export const VALIDATOR_EMAIL = () => ({ type: VALIDATOR_TYPE_EMAIL });
+export const VALIDATOR_FUTURE_DATE = () => ({
+  type: "FUTURE_DATE",
+});
+export const VALIDATOR_URL = () => ({
+  type: "URL",
+});
 
 export const validate = (value, validators) => {
   let isValid = true;
@@ -40,6 +46,17 @@ export const validate = (value, validators) => {
     }
     if (validator.type === VALIDATOR_TYPE_EMAIL) {
       isValid = isValid && /^\S+@\S+\.\S+$/.test(value);
+    }
+    if (validator.type === "FUTURE_DATE") {
+      const selectedDate = new Date(value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      isValid = isValid && selectedDate > today;
+    }
+    if (validator.type === "URL") {
+      // Custom URL validation: check if the URL is valid
+      const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+      isValid = isValid && urlPattern.test(value);
     }
   }
   return isValid;

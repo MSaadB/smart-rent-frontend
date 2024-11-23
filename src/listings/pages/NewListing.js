@@ -5,7 +5,23 @@ import Button from "../../shared/components/FormElements/Button";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
+  VALIDATOR_EMAIL,
+  VALIDATOR_MIN,
+  VALIDATOR_FUTURE_DATE,
+  VALIDATOR_URL
 } from "../../shared/util/validator";
+
+const propertyTypeOptions = [
+  { value: "Room", label: "Room" },
+  { value: "Basement", label: "Basement" },
+  { value: "House", label: "House" },
+  { value: "Apartment", label: "Apartment" },
+];
+
+const yesNoOptions = [
+  { value: "Yes", label: "Yes" },
+  { value: "No", label: "No" },
+];
 
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -66,131 +82,132 @@ const NewListing = () => {
         id="title"
         element="input"
         type="text"
-        label="Title"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid title."
+        label="Title:"
+        validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(10)]}
+        errorText="Please enter a valid title(at least 10 characters)."
         onInput={inputHandler}
       />
       <Input
         id="description"
         element="textarea"
-        label="Description"
-        validators={[VALIDATOR_MINLENGTH(5)]}
+        label="Description:"
+        validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
         errorText="Please enter a valid description(at least 5 characters)."
         onInput={inputHandler}
       />
-      {/*need to edit to allow selections only*/}
       <Input
         id="propertyType"
-        element="input"
-        label="Type of Property"
-        validators={[VALIDATOR_MINLENGTH(5)]}
-        errorText="Please select a valid type of property."
+        element="select"
+        label="Type of Property:"
+        options={propertyTypeOptions}
+        validators={[VALIDATOR_REQUIRE()]}
+        errorText="Please select at least 1 valid type of property."
         onInput={inputHandler}
       />
       <Input
         id="address"
         element="input"
-        label="Address"
+        label="Address:"
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid address."
         onInput={inputHandler}
       />
-      {/*need to edit to validate URLs*/}
       <Input
         id="image"
         element="input"
-        label="Image URL"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid URL."
+        label="Images:"
+        type="url"
+        validators={[VALIDATOR_REQUIRE(), VALIDATOR_URL()]}
+        errorText="Please enter a valid image URL."
         onInput={inputHandler}
       />
-      {/*need to edit to validate numbers only*/}
       <Input
         id="price"
         element="input"
-        label="Listing Price"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid number."
+        label="Listing Price:"
+        type="number"
+        validators={[VALIDATOR_MIN(0), VALIDATOR_REQUIRE()]}
+        errorText="Please enter a valid price (non-negative)."
         onInput={inputHandler}
       />
-      {/*need to edit to validate dates only*/}
       <Input
         id="availableFrom"
         element="input"
-        label="Date(s) Property is Available"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid date."
+        label="Available From:"
+        type="date"
+        validators={[VALIDATOR_REQUIRE(), VALIDATOR_FUTURE_DATE()]}
+        errorText="Please select a valid date."
         onInput={inputHandler}
       />
-      {/*need to edit to validate numbers only*/}
       <Input
         id="size"
         element="input"
-        label="Size (sq ft.)"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid number."
+        label="Size (sq ft.):"
+        type="number"
+        validators={[VALIDATOR_MIN(0)]}
+        errorText="Please enter a valid size (non-negative)."
         onInput={inputHandler}
       />
-      {/*need to edit to validate numbers only*/}
       <Input
         id="bedrooms"
         element="input"
-        label="# of Bedroom(s)"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid number."
+        label="Number of Bedroom(s):"
+        type="number"
+        validators={[VALIDATOR_MIN(0)]}
+        errorText="Please enter a valid number of bedrooms (non-negative)."
         onInput={inputHandler}
       />
-      {/*need to edit to validate numbers only*/}
       <Input
         id="bathrooms"
         element="input"
-        label="# of Bathroom(s)"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid number."
+        label="Number of Bathroom(s):"
+        type="number"
+        validators={[VALIDATOR_MIN(0)]}
+        errorText="Please enter a valid number of bathrooms (non-negative)."
         onInput={inputHandler}
       />
-      {/*need to edit to validate Yes/No selection only*/}
       <Input
         id="furnished"
-        element="input"
-        label="Furnished?"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please make a selection."
+        element="select"
+        label="Furnished?:"
+        options={yesNoOptions}
+        validators={[]}
+        errorText="Please select Yes or No."
         onInput={inputHandler}
       />
-      {/*need to edit to validate Yes/No selection only*/}
       <Input
         id="parking"
-        element="input"
-        label="Parking Available?"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please make a selection."
-        onInput={inputHandler}
-      />
-      <Input
-        id="location"
-        element="input"
-        label="Lat/Long:"
-        validators={[VALIDATOR_MINLENGTH(5)]}
-        errorText="Please enter valid co-ordinates."
+        element="select"
+        label="Parking Available?:"
+        options={yesNoOptions}
+        validators={[]}
+        errorText="Please select Yes or No."
         onInput={inputHandler}
       />
       <Input
         id="owner"
         element="input"
-        label="Owner:"
+        label="Your name:"
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid name."
         onInput={inputHandler}
       />
-      {/*need to edit to validate Yes/No selection only*/}
+      <Input
+        id="ownerEmail"
+        element="input"
+        label="Your Email:"
+        type="email"
+        validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
+        errorText="Please enter a valid email address."
+        onInput={inputHandler}
+      />
       <Input
         id="leaseRequired"
-        element="input"
-        label="Lease Required?"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please make a selection."
+        element="select"
+        label="Lease Required?:"
+        options={yesNoOptions}
+        validators={[]}
+        errorText="Please select Yes or No."
         onInput={inputHandler}
       />
 
