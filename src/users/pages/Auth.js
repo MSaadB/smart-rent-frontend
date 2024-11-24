@@ -11,6 +11,7 @@ import {
   VALIDATOR_EMAIL,
   VALIDATOR_PASSWORD,
   VALIDATOR_REQUIRE,
+  VALIDATOR_PHONE
 } from "../../shared/util/validator";
 import { useForm } from "../../shared/hooks/form-hooks";
 import { AuthContext } from "../../shared/context/auth-context";
