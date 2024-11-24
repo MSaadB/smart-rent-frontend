@@ -26,6 +26,14 @@ export const VALIDATOR_URL = () => ({
   type: "URL",
 });
 
+export const VALIDATOR_PHONE = () => ({
+  type: "PHONE",
+});
+
+export const VALIDATOR_PASSWORD = () => ({
+  type: "PASSWORD",
+});
+
 export const validate = (value, validators) => {
   let isValid = true;
   for (const validator of validators) {
@@ -54,9 +62,23 @@ export const validate = (value, validators) => {
       isValid = isValid && selectedDate > today;
     }
     if (validator.type === "URL") {
-      // Custom URL validation: check if the URL is valid
       const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
       isValid = isValid && urlPattern.test(value);
+    }
+    if (validator.type === "PHONE") {
+      const phoneRegex = /^\d{10}$/;
+      isValid = isValid && phoneRegex.test(value);
+    }
+    if (validator.type === "PASSWORD") {
+      const passwordRegexUpper = /[A-Z]/;
+      const passwordRegexNumber = /[0-9]/;
+      const minLength = 8;
+
+      isValid =
+        isValid &&
+        value.length >= minLength &&
+        passwordRegexUpper.test(value) &&
+        passwordRegexNumber.test(value);
     }
   }
   return isValid;
