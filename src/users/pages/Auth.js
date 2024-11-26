@@ -105,6 +105,7 @@ const Auth = () => {
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Login Required</h2>
+        <p className="required">Fields marked with * required</p>
         <hr />
         <form onSubmit={authSubmitHandler}>
           {!isLoginMode && (
@@ -123,7 +124,7 @@ const Auth = () => {
             id="email"
             type="email"
             label="Your E-Mail:"
-            validators={[VALIDATOR_EMAIL(), VALIDATOR_REQUIRE]}
+            validators={[VALIDATOR_EMAIL(), VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid email address."
             onInput={inputHandler}
           />
@@ -150,7 +151,7 @@ const Auth = () => {
             id="password"
             type="password"
             label="Password"
-            validators={[VALIDATOR_PASSWORD()]}
+            validators={[VALIDATOR_PASSWORD(), VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid password, at least 8 characters an must include 1 uppercase letter and 1 number."
             onInput={inputHandler}
           />

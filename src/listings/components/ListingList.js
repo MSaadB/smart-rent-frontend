@@ -2,6 +2,7 @@ import React from "react";
 import "./ListingList.css";
 import Card from "../../shared/components/UIElements/Card";
 import ListingItem from "./ListingItem";
+import Button from "../../shared/components/FormElements/Button";
 
 const ListingList = (props) => {
   if (props.items.length === 0) {
@@ -9,7 +10,7 @@ const ListingList = (props) => {
       <div className="listing-list">
         <Card>
           <h2>No listings found. Create a listing?</h2>
-          <button>Create Listing</button>
+          <Button to="/properties">Create Listing</Button>
         </Card>
       </div>
     );
@@ -30,8 +31,8 @@ const ListingList = (props) => {
         bathrooms={listing.bathrooms}
         furnished={listing.furnished}
         parking={listing.parking}
-        location={listing.location}
         owner={listing.owner}
+        ownerEmail={listing.ownerEmail}
         leaseRequired={listing.leaseRequired}
         />
       ))}

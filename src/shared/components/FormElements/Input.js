@@ -22,16 +22,6 @@ const inputReducer = (state, action) => {
   }
 };
 
-const options = [
-  { value: 'Room', label: 'Room' },
-  { value: 'Basement', label: 'Basement' },
-  { value: 'House', label: 'House' }
-]
-
-const MyComponent = () => (
-  <Select options={options} />
-)
-
 const Input = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: "",
