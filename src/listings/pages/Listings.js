@@ -1,37 +1,37 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "./Listings.css";
 import ListingList from "../components/ListingList";
-//import { useParams } from "react-router-dom";
-
-const DUMMY_LISTINGS = [
-    {
-        id: "id 1",
-        title: "title 1",
-        description: "description 1",
-        propertyType: "propertyType 1",
-        address: "address 1",
-        image: "https://live.staticflickr.com/2889/33076859034_cb257fc1da_b.jpg",
-        price: "price 1",
-        availableFrom: "availableFrom 1",
-        size: "size 1",
-        bedrooms: "bedrooms 1",
-        bathrooms: "bathrooms 1",
-        furnished: "furnished 1",
-        parking: "parking 1",
-        location: {
-            lat: "lat 1",
-            lng: "lng 1"
-        },
-        owner: "owner 1",
-        leaseRequired: "leaseRequired 1"
-    }
-];
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 const Listings = () => {
-    /*const listingId = useParams().listingId;
-    const filteredListing = DUMMY_LISTINGS.filter((listing) => listing.id === listingId);*/
-    //put in filteredListing between items={}
-    return <ListingList items={DUMMY_LISTINGS}/>;
-};
+    const { isLoading, error, sendRequest } = useHttpClient();
+    const [listings, setListings] = useState([]);
+
+
+    useEffect(() => {
+        const fetchListings = async () => {
+          try {
+            const responseData = await sendRequest("http://localhost:8080/api/properties");
+            setListings(responseData.properties);
+          } catch (err) {
+            console.error("Failed to fetch listings", err);
+          }
+        };
+
+        fetchListings();
+    }, [sendRequest]);
+
+    if (isLoading) {
+        return <LoadingSpinner />
+      }
+    
+      if (error) {
+        return <div>Error fetching listings: {error.message}</div>;
+      }
+    
+      return <ListingList items={listings} />;
+    };
+
 
 export default Listings;
