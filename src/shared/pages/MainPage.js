@@ -3,6 +3,7 @@ import "./MainPage.css";
 import Card from "../components/UIElements/Card";
 import Button from "../components/FormElements/Button";
 import Listings from "../../listings/pages/Listings";
+import Listings from "../../listings/pages/Listings";
 
 const MainPage = (props) => {
   return (
@@ -19,10 +20,6 @@ const MainPage = (props) => {
         <h4>You can browse listings without registering.</h4>
         <Button>Register</Button>
         <Button>Login</Button>
-      </Card>
-
-      <Card>
-        <Listings />
       </Card>
     </div>
   );

@@ -30,10 +30,10 @@ import { useContext } from "react";
       setShowConfirmModal(false);
       try {
         await sendRequest(
-          `http://localhost:8080/api/properties/${props.ownerEmail}`,
+          `http://localhost:8080/api/properties/${props.owner.email}`,
           "DELETE"
         );
-        props.onDelete(props.ownerEmail);
+        props.onDelete(props.owner.email);
       } catch (err) {}
     };
 
@@ -89,16 +89,16 @@ import { useContext } from "react";
             <h3>{props.bathrooms}</h3>
             <h3>{props.furnished}</h3>
             <h3>{props.parking}</h3>
-            <h3>{props.owner}</h3>
-            <h3>{props.ownerEmail}</h3>
+            <h3>{props.owner.name}</h3>
+            <h3>{props.owner.email}</h3>
             <h3>{props.leaseRequired}</h3>
           </div>
           <div className="listing-item__actions">
             <Button onClick={openMapHandler}>VIEW ON MAP</Button>
-            {auth.userId === props.ownerEmail && (
-              <Button to={`/properties/${props.ownerEmail}`}>EDIT</Button>
+            {auth.userId === props.owner.email && (
+              <Button to={`/properties/${props.owner.email}`}>EDIT</Button>
             )}
-            {auth.userId === props.ownerEmail && (
+            {auth.userId === props.owner.email && (
               <Button danger onClick={showDeleteWarningHandler}>
                 DELETE
               </Button>

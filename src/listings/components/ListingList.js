@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "./ListingList.css";
 import Card from "../../shared/components/UIElements/Card";
 import ListingItem from "./ListingItem";
