@@ -2,6 +2,7 @@ import React from "react";
 import "./MainPage.css";
 import Card from "../components/UIElements/Card";
 import Button from "../components/FormElements/Button";
+import Listings from "../../listings/pages/Listings";
 
 const MainPage = (props) => {
   return (
