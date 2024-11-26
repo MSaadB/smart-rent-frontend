@@ -9,14 +9,14 @@ const NavLinks = (props) => {
         <NavLink to="/" exact>
           Home
         </NavLink>
-      </li>
+      </li>      
       <li>
         <NavLink to="/listings" exact>
           Listings
         </NavLink>
       </li>
       <li>
-        <NavLink to="/users">Users</NavLink>
+        <NavLink to="/users">Login/Register</NavLink>
       </li>
       <li>
         <NavLink to="/listings/new">Add Listing</NavLink>

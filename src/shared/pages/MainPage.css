@@ -35,3 +35,10 @@
   .mainpage__modal-content {
     padding: 0;
   }
+  .listing-list {
+    list-style: none;
+    margin: 1rem auto;
+    padding: 0;
+    width: 90%;
+    max-width: 40rem;
+  }
