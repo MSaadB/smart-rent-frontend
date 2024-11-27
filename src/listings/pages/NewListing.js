@@ -187,7 +187,7 @@ const NewListing = () => {
       <Input
         id="owner"
         element="input"
-        label="Your name:"
+        label="Your Name:"
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid name."
         onInput={inputHandler}
