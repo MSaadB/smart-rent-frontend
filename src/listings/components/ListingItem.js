@@ -8,34 +8,34 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import { useContext } from "react";
 
-  const ListingItem = (props) => {
-    const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    const auth = useContext(AuthContext);
-    const [showMap, setShowMap] = useState(false);
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
-  
-    const openMapHandler = () => setShowMap(true);
-  
-    const closeMapHandler = () => setShowMap(false);
-  
-    const showDeleteWarningHandler = () => {
-      setShowConfirmModal(true);
-    };
-  
-    const cancelDeleteHandler = () => {
-      setShowConfirmModal(false);
-    };
-  
-    const confirmDeleteHandler = async () => {
-      setShowConfirmModal(false);
-      try {
-        await sendRequest(
-          `http://localhost:8080/api/properties/${props.owner.email}`,
-          "DELETE"
-        );
-        props.onDelete(props.owner.email);
-      } catch (err) {}
-    };
+const ListingItem = (props) => {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const auth = useContext(AuthContext);
+  const [showMap, setShowMap] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const openMapHandler = () => setShowMap(true);
+
+  const closeMapHandler = () => setShowMap(false);
+
+  const showDeleteWarningHandler = () => {
+    setShowConfirmModal(true);
+  };
+
+  const cancelDeleteHandler = () => {
+    setShowConfirmModal(false);
+  };
+
+  const confirmDeleteHandler = async () => {
+    setShowConfirmModal(false);
+    try {
+      await sendRequest(
+        `http://localhost:8080/api/properties/${props.owner.email}`,
+        "DELETE"
+      );
+      props.onDelete(props.owner.email);
+    } catch (err) {}
+  };
 
   return (
     <React.Fragment>
@@ -67,31 +67,61 @@ import { useContext } from "react";
           </React.Fragment>
         }
       >
-        <p>
-          Do you want to proceed and delete this property?
-        </p>
+        <p>Do you want to proceed and delete this property?</p>
       </Modal>
       <li className="listing-item">
         <Card className="listing-item__content">
-        {isLoading && <LoadingSpinner asOverlay />}
+          {isLoading && <LoadingSpinner asOverlay />}
           <div className="listing-item__image">
-            <img src={props.image} alt={props.title}></img>
+            {props.image && props.image.length > 0 ? (
+              props.image.map((img, index) => (
+                <img key={index} src={img} alt={props.title} />
+              ))
+            ) : (
+              <p>No images available</p>
+            )}
           </div>
           <div className="listing-item__info">
-            <h2>{props.title}</h2>
-            <p>{props.description}</p>
-            <h3>{props.propertyType}</h3>
-            <h3>{props.address}</h3>
-            <h3>{props.price}</h3>
-            <h3>{props.availableFrom}</h3>
-            <h3>{props.size}</h3>
-            <h3>{props.bedrooms}</h3>
-            <h3>{props.bathrooms}</h3>
-            <h3>{props.furnished}</h3>
-            <h3>{props.parking}</h3>
-            <h3>{props.owner.name}</h3>
-            <h3>{props.owner.email}</h3>
-            <h3>{props.leaseRequired}</h3>
+            <h1>{props.title}</h1>
+            <p>
+              <strong>Description: </strong>{props.description}
+            </p>
+            <p>
+              <strong>Property Type: </strong>{props.propertyType}
+            </p>
+            <p>
+              <strong>Address: </strong>{props.address}
+            </p>
+            <p>
+              <strong>Price: </strong>${props.price}
+            </p>
+            <p>
+              <strong>Available From: </strong>{new Date(props.availableFrom).toLocaleDateString()}
+            </p>
+            <p>
+              <strong>Size: </strong>{props.size} sqft
+            </p>
+            <p>
+              <strong>Bedrooms: </strong>{props.bedrooms}
+            </p>
+            <p>
+              <strong>Bathrooms: </strong>{props.bathrooms}
+            </p>
+            <p>
+              <strong>Furnished: </strong>{props.furnished}
+            </p>
+            <p>
+              <strong>Parking: </strong>{props.parking}
+            </p>
+            <p>
+              <strong>Owner: </strong>{props.owner.name} 
+            </p>
+            <p>
+              <strong>Owner email: </strong>{props.owner.email}
+            </p>
+            <p>
+              <strong>Lease Required: </strong>{props.leaseRequired}
+            </p>
           </div>
           <div className="listing-item__actions">
             <Button onClick={openMapHandler}>VIEW ON MAP</Button>

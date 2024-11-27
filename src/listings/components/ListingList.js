@@ -19,21 +19,24 @@ const ListingList = (props) => {
   return (
     <ul className="listing-list">
       {props.items.map((listing) => (
-        <ListingItem key={listing.id} id={listing.id} title={listing.title}
-        description={listing.description}
-        propertyType={listing.propertyType}
-        address={listing.address}
-        image={listing.image}
-        price={listing.price}
-        availableFrom={listing.availableFrom}
-        size={listing.size}
-        bedrooms={listing.bedrooms}
-        bathrooms={listing.bathrooms}
-        furnished={listing.furnished}
-        parking={listing.parking}
-        owner={listing.owner}
-        ownerEmail={listing.ownerEmail}
-        leaseRequired={listing.leaseRequired}
+        <ListingItem
+          key={listing._id}
+          id={listing._id}
+          title={listing.title}
+          description={listing.description}
+          propertyType={listing.propertyType}
+          address={listing.address}
+          image={listing.image}
+          price={listing.price}
+          availableFrom={listing.availableFrom}
+          size={listing.size}
+          bedrooms={listing.bedrooms}
+          bathrooms={listing.bathrooms}
+          furnished={listing.furnished}
+          parking={listing.parking}
+          owner={listing.owner}
+          ownerEmail={listing.ownerEmail}
+          leaseRequired={listing.leaseRequired}
         />
       ))}
     </ul>

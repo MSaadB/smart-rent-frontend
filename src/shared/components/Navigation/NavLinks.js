@@ -1,6 +1,8 @@
 import React from "react";
 import "./NavLinks.css";
 import { NavLink } from "react-router-dom";
+import NewListing from "../../../listings/pages/NewListing";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 const NavLinks = (props) => {
   return (
@@ -19,7 +21,7 @@ const NavLinks = (props) => {
         <NavLink to="/users">Users</NavLink>
       </li>
       <li>
-        <NavLink to="/listings/new">Add Listing</NavLink>
+        <NavLink to="/properties/new">Add Listing</NavLink>
       </li>
     </ul>
   );
