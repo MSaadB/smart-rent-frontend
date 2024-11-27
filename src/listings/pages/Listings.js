@@ -13,7 +13,12 @@ const Listings = () => {
         const fetchListings = async () => {
           try {
             const responseData = await sendRequest("http://localhost:8080/api/properties");
+            console.log(responseData);
+            if (responseData && responseData.properties) {
             setListings(responseData.properties);
+            } else {
+              throw new Error("No properties found");
+            }
           } catch (err) {
             console.error("Failed to fetch listings", err);
           }
