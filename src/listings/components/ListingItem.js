@@ -30,7 +30,7 @@ const ListingItem = (props) => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `http://localhost:8080/api/properties/${props.creator}`,
+        `http://localhost:8080/api/properties/${props.userId}`,
         "DELETE"
       );
       props.onDelete(props.owner.email);
@@ -124,9 +124,9 @@ const ListingItem = (props) => {
           <div className="listing-item__actions">
             <Button onClick={openMapHandler}>VIEW ON MAP</Button>
             {auth.userId === props.owner.email && (
-              <Button to={`/properties/${props.owner.email}`}>EDIT</Button>
+              <Button to={`/properties/${props.userId}`}>EDIT</Button>
             )}
-            {auth.userId === props.owner.email && (
+            {auth.userId === props.userId && (
               <Button danger onClick={showDeleteWarningHandler}>
                 DELETE
               </Button>

@@ -11,9 +11,8 @@ import Users from "./users/pages/Users";
 import Listings from "./listings/pages/Listings";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Auth from "./users/pages/Auth";
-import { AuthContext, AuthProvider } from "./shared/context/auth-context";
+import { AuthContext } from "./shared/context/auth-context";
 import React, { useState, useCallback } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,7 +37,7 @@ const App = () => {
         <Route path="/" exact>
         <MainPage />
       </Route>
-        <Route path="/properties/user/:uemail" exact>
+        <Route path="/properties/users/:userId" exact>
           <Listings />
         </Route>
         <Route path="/properties/new" exact>

@@ -9,19 +9,19 @@ const UserListings = () => {
   const [loadedProperties, setLoadedProperties] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-  const userEmail = useParams().userEmail;
+  const userEmail = useParams().userId;
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:8080/api/properties/user/${userEmail}`
+          `http://localhost:8080/api/properties/user/${userId}`
         );
         setLoadedPlaces(responseData.properties);
       } catch (err) {}
     };
     fetchProperties();
-  }, [sendRequest, userEmail]);
+  }, [sendRequest, userId]);
 
   const propertyDeletedHandler = (deletedPropertyId) => {
     setLoadedProperties((prevProperties) =>
