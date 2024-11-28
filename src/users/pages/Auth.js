@@ -76,7 +76,7 @@ const Auth = () => {
             "Content-Type": "application/json",
           }
         );
-        auth.login(responseData.user.id);
+        auth.login(responseData.userId);
       } catch (err) {}
     } else {
       try {
@@ -94,7 +94,7 @@ const Auth = () => {
             "Content-Type": "application/json",
           }
         );
-        auth.login(responseData.user.id);
+        auth.login(responseData.userId);
       } catch (err) {}
     }
   };
@@ -104,31 +104,21 @@ const Auth = () => {
       <ErrorModal error={error} onClear={clearError} />
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
-        <h2>Login Required</h2>
+        <h2>{isLoginMode ? "Login Required" : "Sign-Up Required"}</h2>
         <p className="required">Fields marked with * required</p>
         <hr />
         <form onSubmit={authSubmitHandler}>
           {!isLoginMode && (
-            <Input
+            <><Input
               element="input"
               id="name"
               type="text"
-              label="Your name:"
+              label="Your Name:"
               validators={[VALIDATOR_REQUIRE()]}
               errorText="Please enter a name."
               onInput={inputHandler}
             />
-          )}
-          <Input
-            element="input"
-            id="email"
-            type="email"
-            label="Your E-Mail:"
-            validators={[VALIDATOR_EMAIL(), VALIDATOR_REQUIRE()]}
-            errorText="Please enter a valid email address."
-            onInput={inputHandler}
-          />
-          <Input
+            <Input
             id="phone"
             element="input"
             label="Phone Number:"
@@ -145,6 +135,16 @@ const Auth = () => {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid address."
             onInput={inputHandler}
+          /></>
+          )}
+          <Input
+            element="input"
+            id="email"
+            type="email"
+            label="Your E-Mail:"
+            validators={[VALIDATOR_EMAIL(), VALIDATOR_REQUIRE()]}
+            errorText="Please enter a valid email address."
+            onInput={inputHandler}
           />
           <Input
             element="input"
@@ -152,7 +152,7 @@ const Auth = () => {
             type="password"
             label="Password"
             validators={[VALIDATOR_PASSWORD(), VALIDATOR_REQUIRE()]}
-            errorText="Please enter a valid password, at least 8 characters an must include 1 uppercase letter and 1 number."
+            errorText="Please enter a valid password, at least 8 characters and must include 1 uppercase letter and 1 number."
             onInput={inputHandler}
           />
           <Button type="submit" disabled={!formState.isValid}>

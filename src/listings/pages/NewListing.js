@@ -11,6 +11,8 @@ import {
   VALIDATOR_URL
 } from "../../shared/util/validator";
 
+import { useHttpClient } from "../../shared/hooks/http-hook";
+
 const propertyTypeOptions = [
   { value: "Room", label: "Room" },
   { value: "Basement", label: "Basement" },
@@ -42,12 +44,34 @@ const formReducer = (state, action) => {
         },
         isValid: formIsValid,
       };
+      case "RESET_FORM":
+        return {
+          inputs: {
+            title: { value: "", isValid: false },
+            description: { value: "", isValid: false },
+            propertyType: { value: "", isValid: false },
+            address: { value: "", isValid: false },
+            image: { value: "", isValid: false },
+            price: { value: "", isValid: false },
+            availableFrom: { value: "", isValid: false },
+            size: { value: "", isValid: false },
+            bedrooms: { value: "", isValid: false },
+            bathrooms: { value: "", isValid: false },
+            furnished: { value: "", isValid: false },
+            parking: { value: "", isValid: false },
+            owner: { value: "", isValid: false },
+            ownerEmail: { value: "", isValid: false },
+            leaseRequired: { value: "", isValid: false },
+          },
+          isValid: false,
+        };
     default:
       return state;
   }
 };
 
 const NewListing = () => {
+  const { isLoading, error, sendRequest } = useHttpClient();
   const [formState, dispatch] = useReducer(formReducer, {
     inputs: {
       title: {
@@ -55,6 +79,58 @@ const NewListing = () => {
         isValid: false,
       },
       description: {
+        value: "",
+        isValid: false,
+      },
+      propertyType: {
+        value: "",
+        isValid: false,
+      },
+      address: {
+        value: "",
+        isValid: false,
+      },
+      image: {
+        value: "",
+        isValid: false,
+      },
+      price: {
+        value: "",
+        isValid: false,
+      },
+      availableFrom: {
+        value: "",
+        isValid: false,
+      },
+      size: {
+        value: "",
+        isValid: false,
+      },
+      bedrooms: {
+        value: "",
+        isValid: false,
+      },
+      bathrooms: {
+        value: "",
+        isValid: false,
+      },
+      furnished: {
+        value: "",
+        isValid: false,
+      },
+      parking: {
+        value: "",
+        isValid: false,
+      },
+      owner: {
+        value: "",
+        isValid: false,
+      },
+      ownerEmail: {
+        value: "",
+        isValid: false,
+      },
+      leaseRequired: {
         value: "",
         isValid: false,
       },
@@ -71,9 +147,42 @@ const NewListing = () => {
     });
   }, []);
 
-  const listingSubmitHandler = (event) => {
+  const listingSubmitHandler = async (event) => {
     event.preventDefault();
     console.log(formState.inputs);
+
+    const formData = {
+      title: formState.inputs.title.value,
+      description: formState.inputs.description.value,
+      propertyType: formState.inputs.propertyType.value,
+      address: formState.inputs.address.value,
+      image: formState.inputs.image.value,
+      price: formState.inputs.price.value,
+      availableFrom: formState.inputs.availableFrom.value,
+      size: formState.inputs.size.value,
+      bedrooms: formState.inputs.bedrooms.value,
+      bathrooms: formState.inputs.bathrooms.value,
+      furnished: formState.inputs.furnished.value,
+      parking: formState.inputs.parking.value,
+      owner: formState.inputs.owner.value,
+      ownerEmail: formState.inputs.ownerEmail.value,
+      leaseRequired: formState.inputs.leaseRequired.value,
+    };
+
+    try {
+      const responseData = await sendRequest(
+        "http://localhost:8080/api/properties/new",
+        "POST",
+        JSON.stringify(formData),
+        {
+          "Content-Type": "application/json",
+        }
+      );
+      console.log("Property added successfully:", responseData);
+      dispatch({ type: "RESET_FORM" });
+    } catch (err) {
+      console.error("Error occurred while adding property:", err);
+    }
   };
 
   return (
@@ -91,7 +200,7 @@ const NewListing = () => {
         id="description"
         element="textarea"
         label="Description:"
-        validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
+        validators={[VALIDATOR_MINLENGTH(5)]}
         errorText="Please enter a valid description(at least 5 characters)."
         onInput={inputHandler}
       />

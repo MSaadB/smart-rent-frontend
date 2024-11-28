@@ -30,7 +30,7 @@ const ListingItem = (props) => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `http://localhost:8080/api/properties/${props.owner.email}`,
+        `http://localhost:8080/api/properties/${props.creator}`,
         "DELETE"
       );
       props.onDelete(props.owner.email);
@@ -73,12 +73,10 @@ const ListingItem = (props) => {
         <Card className="listing-item__content">
           {isLoading && <LoadingSpinner asOverlay />}
           <div className="listing-item__image">
-            {props.image && props.image.length > 0 ? (
-              props.image.map((img, index) => (
-                <img key={index} src={img} alt={props.title} />
-              ))
+          {props.image ? (
+              <img src={props.image} alt={props.title} />
             ) : (
-              <p>No images available</p>
+              <p>No image available</p>
             )}
           </div>
           <div className="listing-item__info">
