@@ -10,7 +10,7 @@ const ListingList = (props) => {
       <div className="listing-list">
         <Card>
           <h2>No listings found. Create a listing?</h2>
-          <Button to="/properties">Create Listing</Button>
+          <Button to="/properties/new">Create Listing</Button>
         </Card>
       </div>
     );
@@ -34,7 +34,7 @@ const ListingList = (props) => {
           bathrooms={listing.bathrooms}
           furnished={listing.furnished}
           parking={listing.parking}
-          owner={listing.owner}
+          ownerName={listing.ownerName}
           ownerEmail={listing.ownerEmail}
           leaseRequired={listing.leaseRequired}
         />

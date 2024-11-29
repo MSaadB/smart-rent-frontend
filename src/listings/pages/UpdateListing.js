@@ -5,7 +5,7 @@ import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from "../../shared/util/validator";
+import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH, VALIDATOR_MIN, VALIDATOR_FUTURE_DATE } from "../../shared/util/validator";
 import { useForm } from "../../shared/hooks/form-hooks";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
@@ -169,7 +169,7 @@ const UpdateListing = () => {
         event.preventDefault();
         try {
           await sendRequest(
-            `http://localhost:8080/api/properties/${placeId}`,
+            `http://localhost:8080/api/properties/${propertyId}`,
             "PATCH",
             JSON.stringify({
               title: formState.inputs.title.value,
@@ -191,7 +191,7 @@ const UpdateListing = () => {
         );
       }
     
-      if (!loadedPlace && !error) {
+      if (!loadedProperty && !error) {
         return (
           <div className="center">
             <Card>
@@ -204,7 +204,7 @@ const UpdateListing = () => {
       return (
         <React.Fragment>
           <ErrorModal error={error} onClear={clearError} />
-          {!isLoading && loadedPlace && (
+          {!isLoading && loadedProperty && (
             <form className="place-form" onSubmit={propertyUpdateSubmitHandler}>
               <Input
                 id="title"

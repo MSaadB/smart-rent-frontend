@@ -72,12 +72,11 @@ const ListingItem = (props) => {
       <li className="listing-item">
         <Card className="listing-item__content">
           {isLoading && <LoadingSpinner asOverlay />}
-          <div className="listing-item__image">
-          {props.image ? (
-              <img src={props.image} alt={props.title} />
-            ) : (
-              <p>No image available</p>
-            )}
+          <div className="place-item__image">
+            <img
+              src={`http://localhost:8080/${props.image}`}
+              alt={props.title}
+            />
           </div>
           <div className="listing-item__info">
             <h1>{props.title}</h1>
@@ -112,10 +111,10 @@ const ListingItem = (props) => {
               <strong>Parking: </strong>{props.parking}
             </p>
             <p>
-              <strong>Owner: </strong>{props.owner.name} 
+              <strong>Owner: </strong>{props.ownerName} 
             </p>
             <p>
-              <strong>Owner email: </strong>{props.owner.email}
+              <strong>Owner email: </strong>{props.ownerEmail}
             </p>
             <p>
               <strong>Lease Required: </strong>{props.leaseRequired}
@@ -123,10 +122,10 @@ const ListingItem = (props) => {
           </div>
           <div className="listing-item__actions">
             <Button onClick={openMapHandler}>VIEW ON MAP</Button>
-            {auth.userId === props.owner.email && (
-              <Button to={`/properties/${props.userId}`}>EDIT</Button>
+            {auth.userId === props.creatorId && (
+              <Button to={`/properties/${props.id}`}>EDIT</Button>
             )}
-            {auth.userId === props.userId && (
+            {auth.userId === props.creatorId && (
               <Button danger onClick={showDeleteWarningHandler}>
                 DELETE
               </Button>

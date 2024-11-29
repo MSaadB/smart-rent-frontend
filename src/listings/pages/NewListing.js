@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import "./NewListing.css";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
@@ -105,33 +106,27 @@ const NewListing = () => {
   const listingSubmitHandler = async (event) => {
     event.preventDefault();
     try {
+      const formData = new FormData();
+      formData.append("title",formState.inputs.title.value);
+      formData.append("description",formState.inputs.description.value);
+      formData.append("propertyType",formState.inputs.propertyType.value);
+      formData.append("address",formState.inputs.address.value);
+      formData.append("image",formState.inputs.image.value);
+      formData.append("price",formState.inputs.price.value);
+      formData.append("availableFrom",formState.inputs.availableFrom.value);
+      formData.append("size",formState.inputs.size.value);
+      formData.append("bedrooms",formState.inputs.bedrooms.value);
+      formData.append("bathrooms",formState.inputs.bathrooms.value);
+      formData.append("furnished",formState.inputs.furnished.value);
+      formData.append("parking",formState.inputs.parking.value);
+      formData.append("ownerName",formState.inputs.ownerName.value);
+      formData.append("ownerEmail",formState.inputs.ownerEmail.value);
+      formData.append("leaseRequired",formState.inputs.leaseRequired.value);
       await sendRequest(
         "http://localhost:8080/api/properties/new",
-        "POST",
-        JSON.stringify({
-          title: formState.inputs.title.value,
-          description: formState.inputs.description.value,
-          propertyType: formState.inputs.propertyType.value,
-          address: formState.inputs.address.value,
-          image: formState.inputs.image.value,
-          price: formState.inputs.price.value,
-          availableFrom: formState.inputs.availableFrom.value,
-          size: formState.inputs.size.value,
-          bedrooms: formState.inputs.bedrooms.value,
-          bathrooms: formState.inputs.bathrooms.value,
-          furnished: formState.inputs.furnished.value,
-          parking: formState.inputs.parking.value,
-          owner: {
-            name: formState.inputs.ownerName.value,
-            email: formState.inputs.ownerEmail.value,
-          },
-          leaseRequired: formState.inputs.leaseRequired.value,
-          creator: auth.userId,
-        }),
-        {
-          "Content-Type": "application/json",
-        }
-      );
+        "POST", formData, {
+          Authorization: "Bearer " + auth.token,
+        });
       history.push("/");
     } catch (err) {}
   };
@@ -175,14 +170,10 @@ const NewListing = () => {
           errorText="Please enter a valid address."
           onInput={inputHandler}
         />
-        <Input
-          id="image"
-          element="input"
-          label="Images:"
-          type="url"
-          validators={[VALIDATOR_REQUIRE(), VALIDATOR_URL()]}
-          errorText="Please enter a valid image URL."
-          onInput={inputHandler}
+        <ImageUpload
+        id="image"
+        onInput={inputHandler}
+        errorText="Please provide an image."
         />
         <Input
           id="price"
@@ -198,7 +189,7 @@ const NewListing = () => {
           element="input"
           label="Available From:"
           type="date"
-          validators={[VALIDATOR_REQUIRE(), VALIDATOR_FUTURE_DATE()]}
+          validators={[VALIDATOR_FUTURE_DATE()]}
           errorText="Please select a valid date."
           onInput={inputHandler}
         />
