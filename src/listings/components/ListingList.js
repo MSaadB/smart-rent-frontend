@@ -22,11 +22,11 @@ const ListingList = (props) => {
         <ListingItem
           key={listing._id}
           id={listing._id}
+          image={listing.image}
           title={listing.title}
           description={listing.description}
           propertyType={listing.propertyType}
           address={listing.address}
-          image={listing.image}
           price={listing.price}
           availableFrom={listing.availableFrom}
           size={listing.size}

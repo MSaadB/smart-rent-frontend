@@ -31,9 +31,13 @@ const ListingItem = (props) => {
     try {
       await sendRequest(
         `http://localhost:8080/api/properties/${props.userId}`,
-        "DELETE"
+        "DELETE",
+        null,
+        {
+          Authorization: "Bearer " + auth.token,
+        }
       );
-      props.onDelete(props.owner.email);
+      props.onDelete(props.id);
     } catch (err) {}
   };
 

@@ -9,7 +9,7 @@ const UserListings = () => {
   const [loadedProperties, setLoadedProperties] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-  const userEmail = useParams().userId;
+  const userId = useParams().userId;
 
   useEffect(() => {
     const fetchProperties = async () => {

@@ -27,7 +27,7 @@ const UpdateListing = () => {
     const auth = useContext(AuthContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [loadedProperty, setLoadedProperty] = useState();
-    const propertyId = useParams()._id;
+    const propertyId = useParams().propertyId;
     const history = useHistory();
   
     const [formState, inputHandler, setFormData] = useForm(
@@ -41,10 +41,6 @@ const UpdateListing = () => {
           isValid: false,
         },
         propertyType: {
-            value: "",
-            isValid: false,
-        },
-        address: {
             value: "",
             isValid: false,
         },
@@ -73,14 +69,6 @@ const UpdateListing = () => {
             isValid: false,
         },
         parking: {
-            value: "",
-            isValid: false,
-        },
-        owner: {
-            value: "",
-            isValid: false,
-        },
-        ownerEmail: {
             value: "",
             isValid: false,
         },
@@ -113,10 +101,6 @@ const UpdateListing = () => {
                     value: responseData.property.propertyType,
                     isValid: true,
                 },
-                address: {
-                    value: responseData.property.address,
-                    isValid: true,
-                },
                 price: {
                     value: responseData.property.price,
                     isValid: true,
@@ -145,14 +129,6 @@ const UpdateListing = () => {
                     value: responseData.property.parking,
                     isValid: true,
                 },
-                owner: {
-                    value: responseData.property.owner.name,
-                    isValid: true,
-                },
-                ownerEmail: {
-                    value: responseData.property.owner.email,
-                    isValid: true,
-                },
                 leaseRequired: {
                     value: responseData.property.leaseRequired,
                     isValid: true,
@@ -174,9 +150,19 @@ const UpdateListing = () => {
             JSON.stringify({
               title: formState.inputs.title.value,
               description: formState.inputs.description.value,
+              propertyType: formState.inputs.propertyType.value,
+              price: formState.inputs.price.value,
+              availableFrom: formState.inputs.availableFrom.value,
+              size: formState.inputs.size.value,
+              bedrooms: formState.inputs.bedrooms.value,
+              bathrooms: formState.inputs.bathrooms.value,
+              furnished: formState.inputs.furnished.value,
+              parking: formState.inputs.parking.value,
+              leaseRequired: formState.inputs.leaseRequired.value,
             }),
             {
               "Content-Type": "application/json",
+              Authorization: "Bearer " + auth.token,
             }
           );
           history.push("/" + auth.userId + "/properties");
@@ -236,16 +222,6 @@ const UpdateListing = () => {
                 errorText="Please select at least 1 valid type of property."
                 onInput={inputHandler}
                 initialValue={loadedProperty.propertyType}
-                initialValid={true}
-              />
-              <Input
-                id="address"
-                element="input"
-                label="Address:"
-                validators={[VALIDATOR_MINLENGTH(5)]}
-                errorText="Please enter a valid address."
-                onInput={inputHandler}
-                initialValue={loadedProperty.address}
                 initialValid={true}
               />
               <Input
@@ -323,26 +299,6 @@ const UpdateListing = () => {
                 errorText="Please select Yes or No."
                 onInput={inputHandler}
                 initialValue={loadedProperty.parking}
-                initialValid={true}
-              />
-              <Input
-                id="owner"
-                element="input"
-                label="Your name:"
-                validators={[VALIDATOR_REQUIRE()]}
-                errorText="Please enter a valid name."
-                onInput={inputHandler}
-                initialValue={loadedProperty.owner.name}
-                initialValid={true}
-              />
-              <Input
-                id="owner"
-                element="input"
-                label="Your name:"
-                validators={[VALIDATOR_REQUIRE()]}
-                errorText="Please enter a valid name."
-                onInput={inputHandler}
-                initialValue={loadedProperty.owner.email}
                 initialValid={true}
               />
               <Input
