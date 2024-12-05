@@ -3,6 +3,7 @@ import "./MainPage.css";
 import Card from "../components/UIElements/Card";
 import Button from "../components/FormElements/Button";
 import Listings from "../../listings/pages/Listings";
+import { NavLink } from "react-router-dom";
 
 const MainPage = (props) => {
   return (
@@ -17,8 +18,8 @@ const MainPage = (props) => {
         <h4>Please register if you would like to create a listing.</h4>
         <h4>Please login if you have already registered.</h4>
         <h4>You can browse listings without registering.</h4>
-        <Button>Register</Button>
-        <Button>Login</Button>
+        <Button><NavLink to="/auth">Register</NavLink></Button>
+        <Button><NavLink to="/auth">Login</NavLink></Button>
       </Card>
 
       <Listings />
