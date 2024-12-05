@@ -236,7 +236,7 @@ const UpdateListing = () => {
                 initialValue={loadedProperty.price}
                 initialValid={true}
               />
-              <Input
+              {/* <Input
                 id="availableFrom"
                 element="input"
                 label="Available From:"
@@ -246,7 +246,7 @@ const UpdateListing = () => {
                 onInput={inputHandler}
                 initialValue={loadedProperty ? loadedProperty.availableFrom: ""}
                 initialValid={true}
-              />
+              /> */}
               <Input
                 id="size"
                 element="input"
