@@ -95,7 +95,7 @@ const Auth = () => {
             "Content-Type": "application/json",
           }
         );
-        auth.login(responseData.userId, responseData.token);
+        auth.login(responseData.userId, responseData.token, responseData.name, responseData.email);
       } catch (err) {}
     } else {
       try {
@@ -122,7 +122,6 @@ const Auth = () => {
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>{isLoginMode ? "Login Required" : "Sign-Up Required"}</h2>
-        <p className="required">Fields marked with * required</p>
         <hr />
         <form onSubmit={authSubmitHandler}>
           {!isLoginMode && (

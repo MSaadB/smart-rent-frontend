@@ -5,6 +5,8 @@ const VALIDATOR_TYPE_MIN = "MIN";
 const VALIDATOR_TYPE_MAX = "MAX";
 const VALIDATOR_TYPE_EMAIL = "EMAIL";
 const VALIDATOR_TYPE_FILE = "FILE";
+const VALIDATOR_TYPE_YESNO = "YESNO";
+const VALIDATOR_TYPE_PROPERTY_TYPE = "PROPERTY_TYPE";
 
 export const VALIDATOR_REQUIRE = () => ({ type: VALIDATOR_TYPE_REQUIRE });
 export const VALIDATOR_FILE = () => ({ type: VALIDATOR_TYPE_FILE });
@@ -32,6 +34,11 @@ export const VALIDATOR_PHONE = () => ({
 
 export const VALIDATOR_PASSWORD = () => ({
   type: "PASSWORD",
+});
+
+export const VALIDATOR_YESNO = () => ({ type: VALIDATOR_TYPE_YESNO });
+export const VALIDATOR_PROPERTY_TYPE = () => ({
+  type: VALIDATOR_TYPE_PROPERTY_TYPE,
 });
 
 export const validate = (value, validators) => {
@@ -79,6 +86,13 @@ export const validate = (value, validators) => {
         value.length >= minLength &&
         passwordRegexUpper.test(value) &&
         passwordRegexNumber.test(value);
+    }
+    if (validator.type === VALIDATOR_TYPE_YESNO) {
+      isValid = isValid && (value.toLowerCase() === "yes" || value.toLowerCase() === "no");
+    }
+    if (validator.type === VALIDATOR_TYPE_PROPERTY_TYPE) {
+      const validTypes = ["room", "basement", "apartment", "house"];
+      isValid = isValid && validTypes.includes(value.toLowerCase());
     }
   }
   return isValid;

@@ -7,6 +7,7 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import { useContext } from "react";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
 const ListingItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -30,7 +31,7 @@ const ListingItem = (props) => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `http://localhost:8080/api/properties/${props.userId}`,
+        `http://localhost:8080/api/properties/${props.id}`,
         "DELETE",
         null,
         {
@@ -43,6 +44,7 @@ const ListingItem = (props) => {
 
   return (
     <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
       <Modal
         show={showMap}
         onCancel={closeMapHandler}

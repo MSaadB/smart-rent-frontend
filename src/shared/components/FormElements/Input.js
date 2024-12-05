@@ -3,6 +3,8 @@ import React, { useReducer, useEffect } from "react";
 import { validate } from "../../util/validator";
 import "./Input.css";
 import Select from 'react-select';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 const inputReducer = (state, action) => {
   switch (action.type) {
@@ -53,10 +55,6 @@ const Input = (props) => {
     });
   };
 
-  const isRequired = props.validators?.some(
-    (validator) => validator.type === "REQUIRE"
-  );
-
   const element =
     props.element === "input" ? (
       <input
@@ -92,9 +90,23 @@ const Input = (props) => {
       }`}
     >
       <label htmlFor={props.id}>
-        {props.label} {isRequired && <span style={{ color: "red" }}>*</span>}
+        {props.label}
       </label>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+        }}
+        >
       {element}
+      {isValid && inputState.isTouched && (
+          <FontAwesomeIcon
+            icon={faCheckCircle}
+            style={{ color: "green", fontSize: "20px" }}
+          />
+        )}
+      </div>
       {!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}
     </div>
   );

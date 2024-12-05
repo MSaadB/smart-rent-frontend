@@ -15,6 +15,7 @@ import Auth from "./users/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
 import UpdateListing from "./listings/pages/UpdateListing";
 import { useAuth } from "./shared/hooks/auth-hook";
+import UserListings from "./listings/pages/UserListings";
 
 const App = () => {
   const { token, login, logout, userId } = useAuth();
@@ -26,12 +27,16 @@ const App = () => {
     routes = (
       <Switch>
         <Route path="/" exact>
-        <MainPage />
-      </Route>
+          <MainPage />
+        </Route>
+        <Route path="/:userId/properties" exact>
+          <UserListings />
+        </Route>
         <Route path="/properties/new" exact>
           <NewListing />
         </Route>
-        <Route path="/properties/:propertyId"><UpdateListing />
+        <Route path="/properties/:propertyId">
+          <UpdateListing />
         </Route>
         <Redirect to="/" />
       </Switch>

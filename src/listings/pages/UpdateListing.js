@@ -5,23 +5,11 @@ import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH, VALIDATOR_MIN, VALIDATOR_FUTURE_DATE } from "../../shared/util/validator";
+import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH, VALIDATOR_MIN, VALIDATOR_FUTURE_DATE, VALIDATOR_YESNO, VALIDATOR_PROPERTY_TYPE } from "../../shared/util/validator";
 import { useForm } from "../../shared/hooks/form-hooks";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import "./NewListing.css"
-
-const propertyTypeOptions = [
-    { value: "Room", label: "Room" },
-    { value: "Basement", label: "Basement" },
-    { value: "House", label: "House" },
-    { value: "Apartment", label: "Apartment" },
-  ];
-  
-  const yesNoOptions = [
-    { value: "Yes", label: "Yes" },
-    { value: "No", label: "No" },
-  ];
 
 const UpdateListing = () => {
     const auth = useContext(AuthContext);
@@ -83,10 +71,19 @@ const UpdateListing = () => {
     useEffect(() => {
         const fetchProperty = async () => {
           try {
+            console.log("Property ID:", propertyId)
             const responseData = await sendRequest(
               `http://localhost:8080/api/properties/${propertyId}`
             );
+            console.log("Fetched property:", responseData);
+
+            if (!responseData || !responseData.property) {
+              throw new Error("Property data not found");
+          }
+
             setLoadedProperty(responseData.property);
+            console.log("Loaded Property:", responseData.property);
+
             setFormData(
               {
                 title: {
@@ -106,8 +103,10 @@ const UpdateListing = () => {
                     isValid: true,
                 },
                 availableFrom: {
-                    value: responseData.property.availableFrom,
-                    isValid: true,
+                  value: responseData.property.availableFrom
+                    ? new Date(responseData.property.availableFrom).toISOString().split('T')[0]
+                    : "",
+                  isValid: true,
                 },
                 size: {
                     value: responseData.property.size,
@@ -136,7 +135,9 @@ const UpdateListing = () => {
               },
               true
             );
-          } catch (err) {}
+          } catch (err) {
+            console.log("Error fetching property:", err);
+          }
         };
         fetchProperty();
       }, [sendRequest, propertyId, setFormData]);
@@ -215,11 +216,11 @@ const UpdateListing = () => {
               />
               <Input
                 id="propertyType"
-                element="select"
+                element="input"
+                type="text"
                 label="Type of property:"
-                options={propertyTypeOptions}
-                validators={[VALIDATOR_REQUIRE()]}
-                errorText="Please select at least 1 valid type of property."
+                validators={[VALIDATOR_REQUIRE(), VALIDATOR_PROPERTY_TYPE()]}
+                errorText="Please enter Room, basement, apartment or house."
                 onInput={inputHandler}
                 initialValue={loadedProperty.propertyType}
                 initialValid={true}
@@ -243,7 +244,7 @@ const UpdateListing = () => {
                 validators={[VALIDATOR_REQUIRE(), VALIDATOR_FUTURE_DATE()]}
                 errorText="Please select a valid date."
                 onInput={inputHandler}
-                initialValue={loadedProperty.availableFrom}
+                initialValue={loadedProperty ? loadedProperty.availableFrom: ""}
                 initialValid={true}
               />
               <Input
@@ -281,33 +282,33 @@ const UpdateListing = () => {
               />
               <Input
                 id="furnished"
-                element="select"
+                element="input"
+                type="text"
                 label="Furnished?:"
-                options={yesNoOptions}
-                validators={[]}
-                errorText="Please select Yes or No."
+                validators={[VALIDATOR_YESNO()]}
+                errorText="Please enter Yes or No."
                 onInput={inputHandler}
                 initialValue={loadedProperty.furnished}
                 initialValid={true}
               />
               <Input
                 id="parking"
-                element="select"
+                element="input"
+                type="text"
                 label="Parking Available?:"
-                options={yesNoOptions}
-                validators={[]}
-                errorText="Please select Yes or No."
+                validators={[VALIDATOR_YESNO()]}
+                errorText="Please enter Yes or No."
                 onInput={inputHandler}
                 initialValue={loadedProperty.parking}
                 initialValid={true}
               />
               <Input
                 id="leaseRequired"
-                element="select"
+                element="input"
+                type="text"
                 label="Lease Required?:"
-                options={yesNoOptions}
-                validators={[]}
-                errorText="Please select Yes or No."
+                validators={[VALIDATOR_YESNO()]}
+                errorText="Please enter Yes or No."
                 onInput={inputHandler}
                 initialValue={loadedProperty.leaseRequired}
                 initialValid={true}

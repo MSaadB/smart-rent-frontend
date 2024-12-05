@@ -17,7 +17,7 @@ const UserListings = () => {
         const responseData = await sendRequest(
           `http://localhost:8080/api/properties/user/${userId}`
         );
-        setLoadedPlaces(responseData.properties);
+        setLoadedProperties(responseData.properties);
       } catch (err) {}
     };
     fetchProperties();

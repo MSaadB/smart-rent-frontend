@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./NewListing.css";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
@@ -9,7 +9,8 @@ import {
   VALIDATOR_EMAIL,
   VALIDATOR_MIN,
   VALIDATOR_FUTURE_DATE,
-  VALIDATOR_URL,
+  VALIDATOR_YESNO,
+  VALIDATOR_PROPERTY_TYPE
 } from "../../shared/util/validator";
 
 import { useHttpClient } from "../../shared/hooks/http-hook";
@@ -19,87 +20,90 @@ import { AuthContext } from "../../shared/context/auth-context";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
-const propertyTypeOptions = [
-  { value: "Room", label: "Room" },
-  { value: "Basement", label: "Basement" },
-  { value: "House", label: "House" },
-  { value: "Apartment", label: "Apartment" },
-];
-
-const yesNoOptions = [
-  { value: "Yes", label: "Yes" },
-  { value: "No", label: "No" },
-];
-
 const NewListing = () => {
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-  const [formState, inputHandler] = useForm(
+  const [formState, inputHandler, setFormData] = useForm(
     {
       title: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       description: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       propertyType: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       address: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       image: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       price: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       availableFrom: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       size: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       bedrooms: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       bathrooms: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       furnished: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       parking: {
         value: "",
-        isValid: false,
+        isValid: false
       },
       ownerName: {
-        value: "",
-        isValid: false,
+        value: auth.name || "",
+        isValid: !!auth.name
       },
       ownerEmail: {
-        value: "",
-        isValid: false,
+        value: auth.email || "",
+        isValid: !!auth.email
       },
       leaseRequired: {
         value: "",
-        isValid: false,
+        isValid: false
       },
     },
     false
   );
+
+  useEffect(() => {
+    console.log('auth.name:', auth.name);
+    console.log('auth.email:', auth.email);
+    if (auth.name && auth.email && (!formState.inputs.ownerName.isValid || !formState.inputs.ownerEmail.isValid)) {
+      setFormData(
+        {
+          ...formState.inputs,
+          ownerName: { value: auth.name, isValid: true },
+          ownerEmail: { value: auth.email, isValid: true },
+        },
+        formState.isValid
+      );
+    }
+  }, [auth.name, auth.email, setFormData, formState.inputs]);
 
   const history = useHistory();
 
@@ -155,11 +159,11 @@ const NewListing = () => {
         />
         <Input
           id="propertyType"
-          element="select"
+          element="input"
+          type="text"
           label="Type of Property:"
-          options={propertyTypeOptions}
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please select at least 1 valid type of property."
+          validators={[VALIDATOR_REQUIRE(), VALIDATOR_PROPERTY_TYPE()]}
+          errorText="Please enter Room, basement, apartment or house."
           onInput={inputHandler}
         />
         <Input
@@ -222,20 +226,20 @@ const NewListing = () => {
         />
         <Input
           id="furnished"
-          element="select"
+          element="input"
+          type="text"
           label="Furnished?:"
-          options={yesNoOptions}
-          validators={[]}
-          errorText="Please select Yes or No."
+          validators={[VALIDATOR_YESNO()]}
+          errorText="Please enter Yes or No."
           onInput={inputHandler}
         />
         <Input
           id="parking"
-          element="select"
+          element="input"
+          type="text"
           label="Parking Available?:"
-          options={yesNoOptions}
-          validators={[]}
-          errorText="Please select Yes or No."
+          validators={[VALIDATOR_YESNO()]}
+          errorText="Please enter Yes or No."
           onInput={inputHandler}
         />
         <Input
@@ -245,6 +249,8 @@ const NewListing = () => {
           validators={[VALIDATOR_REQUIRE()]}
           errorText="Please enter a valid name."
           onInput={inputHandler}
+          initialValue={auth.name}
+          initialValid={!!auth.name}
         />
         <Input
           id="ownerEmail"
@@ -254,13 +260,15 @@ const NewListing = () => {
           validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
           errorText="Please enter a valid email address."
           onInput={inputHandler}
+          initialValue={auth.email}
+          initialValid={!!auth.email}
         />
         <Input
           id="leaseRequired"
-          element="select"
+          element="input"
+          type="text"
           label="Lease Required?:"
-          options={yesNoOptions}
-          validators={[]}
+          validators={[VALIDATOR_YESNO()]}
           errorText="Please select Yes or No."
           onInput={inputHandler}
         />
