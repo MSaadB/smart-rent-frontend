@@ -9,7 +9,7 @@ import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH, VALIDATOR_MIN, VALIDATOR_FUTURE
 import { useForm } from "../../shared/hooks/form-hooks";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
-import "./NewListing.css"
+import "./UpdateListing.css";
 
 const UpdateListing = () => {
     const auth = useContext(AuthContext);
