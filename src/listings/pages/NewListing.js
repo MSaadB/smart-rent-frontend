@@ -146,7 +146,7 @@ const NewListing = () => {
           type="text"
           label="Title:"
           validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(10)]}
-          errorText="Please enter a valid title(at least 10 characters)."
+          errorText="Please enter a valid title (at least 10 characters)."
           onInput={inputHandler}
         />
         <Input
@@ -154,7 +154,7 @@ const NewListing = () => {
           element="textarea"
           label="Description:"
           validators={[VALIDATOR_MINLENGTH(5)]}
-          errorText="Please enter a valid description(at least 5 characters)."
+          errorText="Please enter a valid description (at least 5 characters)."
           onInput={inputHandler}
         />
         <Input
@@ -163,7 +163,7 @@ const NewListing = () => {
           type="text"
           label="Type of Property:"
           validators={[VALIDATOR_REQUIRE(), VALIDATOR_PROPERTY_TYPE()]}
-          errorText="Please enter Room, basement, apartment or house."
+          errorText="Please enter 'room', 'basement', 'apartment' or 'house'."
           onInput={inputHandler}
         />
         <Input
@@ -230,7 +230,7 @@ const NewListing = () => {
           type="text"
           label="Furnished?:"
           validators={[VALIDATOR_YESNO()]}
-          errorText="Please enter Yes or No."
+          errorText="Please enter 'Yes' or 'No'."
           onInput={inputHandler}
         />
         <Input
@@ -239,7 +239,7 @@ const NewListing = () => {
           type="text"
           label="Parking Available?:"
           validators={[VALIDATOR_YESNO()]}
-          errorText="Please enter Yes or No."
+          errorText="Please enter 'Yes' or 'No'."
           onInput={inputHandler}
         />
         <Input

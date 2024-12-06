@@ -78,7 +78,7 @@ const UpdateListing = () => {
             console.log("Fetched property:", responseData);
 
             if (!responseData || !responseData.property) {
-              throw new Error("Property data not found");
+              throw new Error("Property data not found.");
           }
 
             setLoadedProperty(responseData.property);
@@ -220,7 +220,7 @@ const UpdateListing = () => {
                 type="text"
                 label="Type of property:"
                 validators={[VALIDATOR_REQUIRE(), VALIDATOR_PROPERTY_TYPE()]}
-                errorText="Please enter Room, basement, apartment or house."
+                errorText="Please enter 'room', 'basement', 'apartment' or 'house'."
                 onInput={inputHandler}
                 initialValue={loadedProperty.propertyType}
                 initialValid={true}
@@ -272,7 +272,7 @@ const UpdateListing = () => {
               <Input
                 id="bathrooms"
                 element="input"
-                label="Number of Bathrooms(s):"
+                label="Number of Bathroom(s):"
                 type="number"
                 validators={[VALIDATOR_MIN(0)]}
                 errorText="Please enter a valid number of bathrooms (non-negative)."
@@ -286,7 +286,7 @@ const UpdateListing = () => {
                 type="text"
                 label="Furnished?:"
                 validators={[VALIDATOR_YESNO()]}
-                errorText="Please enter Yes or No."
+                errorText="Please enter 'Yes' or 'No'."
                 onInput={inputHandler}
                 initialValue={loadedProperty.furnished}
                 initialValid={true}
@@ -297,7 +297,7 @@ const UpdateListing = () => {
                 type="text"
                 label="Parking Available?:"
                 validators={[VALIDATOR_YESNO()]}
-                errorText="Please enter Yes or No."
+                errorText="Please enter 'Yes' or 'No'."
                 onInput={inputHandler}
                 initialValue={loadedProperty.parking}
                 initialValid={true}
@@ -308,7 +308,7 @@ const UpdateListing = () => {
                 type="text"
                 label="Lease Required?:"
                 validators={[VALIDATOR_YESNO()]}
-                errorText="Please enter Yes or No."
+                errorText="Please enter 'Yes' or 'No'."
                 onInput={inputHandler}
                 initialValue={loadedProperty.leaseRequired}
                 initialValid={true}
