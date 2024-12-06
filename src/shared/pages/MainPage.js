@@ -18,8 +18,8 @@ const MainPage = (props) => {
         <h4>Please register if you would like to create a listing.</h4>
         <h4>Please login if you have already registered.</h4>
         <h4>You can browse listings without registering.</h4>
-        <Button><NavLink to="/auth">Register</NavLink></Button>
-        <Button><NavLink to="/auth">Login</NavLink></Button>
+        <Button><NavLink to="/auth">SIGN-UP</NavLink></Button>
+        <Button><NavLink to="/auth">LOGIN</NavLink></Button>
       </Card>
 
       <Listings />
